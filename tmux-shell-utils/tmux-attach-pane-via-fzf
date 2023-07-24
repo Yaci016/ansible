@@ -3,13 +3,13 @@
 # Check if a tmux session is active
 if [ -n "$TMUX" ]; then
     # Get a list of all windows in the current session
-    windows=$(tmux list-windows -t "$TMUX_WINDOW" -F "#{session_name} #{window_id}" 2>/dev/null)
+    windows=$(tmux list-windows -t "$TMUX_WINDOW" -F "#{session_name} #{window_id} #{window_name}" 2>/dev/null)
 else
      # Get a list of all windows in all sessions
     windows=""
     sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null)
     while IFS= read -r session; do
-        session_windows=$(tmux list-windows -t "$session" -F "#{session_name} #{window_id}" 2>/dev/null)
+        session_windows=$(tmux list-windows -t "$session" -F "#{session_name} #{window_id} #{window_name}" 2>/dev/null)
         windows+="$session_windows"$'\n'
     done <<< "$sessions"
 fi
